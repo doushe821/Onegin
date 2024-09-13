@@ -1,0 +1,9 @@
+void dcmp()
+{
+    
+}
+
+void rcmp()
+{
+    
+}
