@@ -1,4 +1,0 @@
-int SortText(char*, )
-{
-
-}

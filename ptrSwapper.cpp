@@ -8,6 +8,6 @@ void ptrSwap(char** ptr1, char** ptr2, size_t size)
     *temp = *ptr2;
     *ptr2 = *ptr1;
     *ptr1 = *temp;
-    whisper("\nLines swapped\n");
+    //whisper("\nLines swapped\n");
     free(temp);
 }

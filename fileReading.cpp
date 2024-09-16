@@ -5,7 +5,7 @@
 
 void readFromFile(struct Text* text, const char* fileName)
 {
-    FILE* fp = fopen("Onegin.txt", "rb");
+    FILE* fp = fopen(fileName, "rb");
     //if(fp == NULL)
         //return FOPEN_ERROR; //TODO errno or enum errors
 
@@ -19,10 +19,6 @@ void readFromFile(struct Text* text, const char* fileName)
     text->buffer[0] = '\0';
     text->buffer[text->bufferLen] = '\0';
     fread(text->buffer + 1, text->bufferLen, sizeof(*text->buffer), fp);
-
-
-    //fprintf(stderr, "%s", text->buffer);
-
 
     /*if(fread(lineStorage, ars.fSize, sizeof(char), fp) != ars.fSize)
     {

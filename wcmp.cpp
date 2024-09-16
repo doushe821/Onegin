@@ -1,9 +1,0 @@
-void dcmp()
-{
-    
-}
-
-void rcmp()
-{
-    
-}
