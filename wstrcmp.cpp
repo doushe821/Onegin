@@ -5,7 +5,7 @@
 #include "SoftAssert.h"
 #include "OneginIO.h"
 
-int fstrcmp(void* a, void* b)
+int fstrcmp(const void* a, const void* b)
 {
     //fprintf(stderr, "a: %s\nb: %s\n", (char*)a, (char*)b);
     int aIndex = 0;
@@ -37,7 +37,7 @@ int fstrcmp(void* a, void* b)
     return 0;
 }
 
-int bstrcmp(void* a, void* b)
+int bstrcmp(const void* a, const void* b)
 {
     int bIndex = 0;
     int aIndex = 0;

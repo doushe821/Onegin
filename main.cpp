@@ -12,11 +12,11 @@ int main()
     readFromFile(&Onegin, "fullOnegin.txt");
 
     bubSort(&Onegin, &fstrcmp);
-    outputSortedText(&Onegin, "Sorted.txt");
+    outputSortedText(&Onegin, "Sorted.txt", "w+b");
     printf("Sorting forward done.\n");
 
     bubSort(&Onegin, &bstrcmp);
-    outputSortedText(&Onegin, "Sorted.txt");
+    outputSortedText(&Onegin, "SortedBackwards.txt", "a+b");
     printf("Backward sorting is done, enjoy new rhymes!");
    // wqsort(tArr.ptrs, tArr.fSize, sizeof(char**), &wstrcmp( ));
 

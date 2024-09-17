@@ -21,10 +21,10 @@ struct Text
 
 void readFromFile(struct Text* text, const char* const fileName);
 void writeToFile(struct Text* sorted, const char* const fileName);
-int fstrcmp(void* a, void* b);
-int bstrcmp(void* a, void* b);
+int fstrcmp(const void* a,const void* b);
+int bstrcmp(const void* a, const void* b);
 void ptrSwap(char** ptr1, char** ptr2, size_t size);
-void bubSort(struct Text* text, int (*comp)(void*, void*));
-int outputSortedText(struct Text* text, const char* fName);
+void bubSort(struct Text* text, int (*comp)(const void*,const void*));
+int outputSortedText(struct Text* text, const char* fName, const char* mode);
 
 #endif

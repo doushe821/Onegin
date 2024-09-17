@@ -1,8 +1,8 @@
 #include "OneginIO.h"
 
-int outputSortedText(struct Text* text, const char* fName)
+int outputSortedText(struct Text* text, const char* fName, const char* mode)
 {
-    FILE* fp = fopen(fName, "w+b"); 
+    FILE* fp = fopen(fName, mode); 
     if(fp == NULL)
     {
         return -1; //TODO

@@ -1,7 +1,7 @@
 #include "OneginIO.h"
 #include <stdio.h>
 
-void bubSort(struct Text* text, int (*comp)(void*, void*))
+void bubSort(struct Text* text, int (*comp)(const void*, const void*))
 {
     //fprintf(stderr, "hi\n");
     for(size_t i = 0; i < text->nLines; i++)
