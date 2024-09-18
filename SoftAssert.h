@@ -6,13 +6,9 @@
 #include <stdio.h>
 
 //#include "vibrantPrint.h"
-void scream(const char* condition_s, const char* file, const char* func, int line, \
+void cAssert(const char* condition_s, const char* file, const char* func, int line, \
                  const char* comment, ...);
 void whisper(const char* condition_s, const char* file, const char* func, int line, \
-                 const char* comment, ...);
-
-
-void scream(const char* condition_s, const char* file, const char* func, int line, \
                  const char* comment, ...);
 
 
@@ -22,20 +18,21 @@ void scream(const char* condition_s, const char* file, const char* func, int lin
 #define whisper
 #else
 #define whisper(condition, comment, ...) if(condition) \
-{ scream(#condition, __FILE__, __func__, \
+{ cAssert(#condition, __FILE__, __func__, \
               __LINE__, comment, ##__VA_ARGS__) \
 } else /
 #endif
 
 #ifdef NDEBUG
-#define scream
+#define cAssert
 #else
-#define scream(condition, comment, ...) if(condition) \
-{ scream(#condition, __FILE__, __func__, \
-              __LINE__, comment, ##__VA_ARGS__) \
-} else /
+#define cAssert(condition, comment, ...) if(condition) \
+{ cAssert(#condition, __FILE__, __func__, \
+              __LINE__, comment, ##__VA_ARGS__); \
+} else 
+#endif
+
 #endif
 
 
-#endif
 

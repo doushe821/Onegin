@@ -8,7 +8,7 @@ int colorVprintf (FILE* stream, const char* format, enum spectrum color, va_list
 int vibrantPrint(enum spectrum color, FILE* output_stream, const char* str, ...);
 
 
-void scream(const char* condition_s, const char* file, const char* func, int line, \
+void cAssert(const char* condition_s, const char* file, const char* func, int line, \
             const char* comment, ...)
 {
     va_list factor;

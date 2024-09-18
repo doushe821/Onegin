@@ -13,11 +13,11 @@ int main()
 {  
     readFromFile(&Onegin, "fullOnegin.txt");
 
-    wqsort(Onegin.lines, Onegin.nLines, sizeof(Onegin.lines), fstrcmp);
+    wqsort(Onegin.lines, Onegin.nLines, sizeof(Onegin.lines), strcmpForwards);
     outputSortedText(&Onegin, "Sorted.txt", "w+b");
     printf("Sorting forward done.\n");
 
-    wqsort(Onegin.lines, Onegin.nLines, sizeof(Onegin.lines), &bstrcmp);
+    wqsort(Onegin.lines, Onegin.nLines, sizeof(Onegin.lines), strcmpBackwards);
     outputSortedText(&Onegin, "SortedBackwards.txt", "w+b");
     printf("Backward sorting is done, enjoy new rhymes!");
 
