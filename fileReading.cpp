@@ -1,6 +1,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <errno.h>
+
 #include "OneginIO.h"
 
 void readFromFile(struct Text* text, const char* fileName)
