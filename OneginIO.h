@@ -4,17 +4,17 @@
 #include <string.h>
 #include <stdio.h>
 
-enum errorCodes
+struct Line
 {
-    FOPEN_ERROR = -1,
-    READING_ERROR = -2
-}; //TODO errno
+    char* ptr;
+    size_t length;
+};
 
 struct Text
 {
     char* buffer;
     size_t bufferLen;
-    char** lines;
+    struct Lines* lines;
     size_t nLines;
 };
 
@@ -23,5 +23,6 @@ void writeToFile(struct Text* sorted, const char* const fileName);
 int strcmpForwards(const void* a, const void* b);
 int strcmpBackwards(const void* a, const void* b);
 int outputSortedText(struct Text* text, const char* fName, const char* mode);
+void freeDynamicMem(struct Text* text);
 
 #endif

@@ -8,7 +8,7 @@
 //#include "vibrantPrint.h"
 void cAssert(const char* condition_s, const char* file, const char* func, int line, \
                  const char* comment, ...);
-void whisper(const char* condition_s, const char* file, const char* func, int line, \
+void whisper(const char* file, const char* func, int line, \
                  const char* comment, ...);
 
 
@@ -17,10 +17,8 @@ void whisper(const char* condition_s, const char* file, const char* func, int li
 #ifdef NDEBUG
 #define whisper
 #else
-#define whisper(condition, comment, ...) if(condition) \
-{ cAssert(#condition, __FILE__, __func__, \
-              __LINE__, comment, ##__VA_ARGS__) \
-} else /
+#define whisper(comment, ...) whisper(__FILE__, __func__, \
+                                      __LINE__, comment, ##__VA_ARGS__)
 #endif
 
 #ifdef NDEBUG
@@ -28,7 +26,7 @@ void whisper(const char* condition_s, const char* file, const char* func, int li
 #else
 #define cAssert(condition, comment, ...) if(condition) \
 { cAssert(#condition, __FILE__, __func__, \
-              __LINE__, comment, ##__VA_ARGS__); \
+          __LINE__, comment, ##__VA_ARGS__); \
 } else 
 #endif
 

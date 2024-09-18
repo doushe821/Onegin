@@ -22,15 +22,15 @@ void cAssert(const char* condition_s, const char* file, const char* func, int li
     abort();
 } 
 
-void whisper(const char* condition_s, const char* file, const char* func, int line, \
+void whisper(const char* file, const char* func, int line, \
              const char* comment, ...)
 {
     va_list factor;
     va_start(factor, comment);
 
     colorVprintf(stderr, comment, red, factor);
-    vibrantPrint(red, stderr, "Assertion failed: %s. %s -> %s -> %d",
-                 condition_s, file, func, line);
+    vibrantPrint(red, stderr, "Assertion failed: %s. %s -> -> %d",
+                 file, func, line);
 
     va_end (factor);
 } 

@@ -1,8 +1,11 @@
 #include <stdlib.h>
 #include <string.h>
+#include <stdint.h>
 
 #include "wqsort.h"
 #include "SoftAssert.h"
+
+void objSwapper(void* a, void* b, size_t size);
 
 void wqsort(void* ptr, size_t count, size_t size, int (*comp)(const void*, const void*))
 {
@@ -11,8 +14,6 @@ void wqsort(void* ptr, size_t count, size_t size, int (*comp)(const void*, const
     {
         return;
     }
-
-    void* temp = calloc(1, size); 
 
     size_t i = 0;
     size_t j = 0;
@@ -28,28 +29,27 @@ void wqsort(void* ptr, size_t count, size_t size, int (*comp)(const void*, const
             j++; 
         }
 
-        memcpy(temp, (char*)ptr + j*size, size);
-        memcpy((char*)ptr + j*size, (char*)ptr + i*size, size);
-        memcpy((char*)ptr + i*size, temp, size);
+        objSwapper((char*)ptr + j*size, (char*)ptr + i*size, size);
 
         i++;
     }
-    free(temp);
 
     wqsort((char*)ptr, j, size, comp);
     wqsort(((char*)ptr + (j + 1)*size), count - j - 1, size, comp);
 }
 
-/*void objSwapper(void* a, void* b, size_t size)
+void objSwapper(void* a, void* b, size_t size)
 {
-    int64_t buf = 0;
+    uint64_t buf = 0;
     size_t i = 0;
     do
     {
-        memcpy(buf, (char*)a, //);
-        memcpy((char*)a, (char*)b, //);
-        memcpy((char*)b, buf, //);
-
-    }while(buf*i < size);
-}*/
+        
+        memcpy(&buf, (char*)a + i*sizeof(buf), sizeof(buf));
+        memcpy((char*)a + i*sizeof(buf), (char*)b + i*sizeof(buf), sizeof(buf));
+        memcpy((char*)b + i*sizeof(buf), &buf, sizeof(buf));
+        i++;
+                              
+    }while(sizeof(buf)*i < size);
+}
 

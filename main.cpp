@@ -21,9 +21,6 @@ int main()
     outputSortedText(&Onegin, "SortedBackwards.txt", "w+b");
     printf("Backward sorting is done, enjoy new rhymes!");
 
-    free(Onegin.lines);
-    free(Onegin.buffer);
+    freeDynamicMem(&Onegin);
 }
-
-
 

@@ -25,7 +25,7 @@ void readFromFile(struct Text* text, const char* fileName)
     text->buffer[0] = '\0';
     text->buffer[text->bufferLen] = '\0';
 
-    if(fread(text->buffer + 1, text->bufferLen, sizeof(*text->buffer), fp))
+    if(fread(text->buffer + 1, text->bufferLen, sizeof(*text->buffer), fp) == NULL)
     {
         perror("fread()");
         cAssert(0, "File reading error.");
@@ -34,8 +34,8 @@ void readFromFile(struct Text* text, const char* fileName)
 
     for(size_t i = 0; i < text->bufferLen; i++)
     {
-        if(text->buffer[i] == '\n')
-            text->nLines++;
+        if(text->buffer[i] == '\n') //i += (strchr(text->buffer + i, '\n') - (text->buffer + i));                        
+            text->nLines++;         //text->nLines++;
     }
     text->nLines++; // cycle doesn't count first line
     fprintf(stderr, "nlines = %d\n", text->nLines);
@@ -63,4 +63,9 @@ void readFromFile(struct Text* text, const char* fileName)
     for(int i = 0; i < ptrIndex; i++)
         fprintf(stderr, "%s\n", text->lines[i]);
     */
+}
+
+void freeDynamicMem(struct Text* text)
+{
+    free(text);
 }
