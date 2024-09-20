@@ -6,13 +6,13 @@
 #include "OneginIO.h"
 #include "SoftAssert.h"
 
-void readFromFile(struct Text* text, const char* fileName)
+int readFromFile(struct Text* text, const char* fileName)
 {
     FILE* fp = fopen(fileName, "rb");
     if(fp == NULL)
     {
         perror("fopen()");
-        cAssert(0, "File opening error.");
+        return FOPEN_ERROR;
     } 
 
     fseek(fp, 0L, SEEK_END);
@@ -28,7 +28,7 @@ void readFromFile(struct Text* text, const char* fileName)
     if(fread(text->buffer + 1, text->bufferLen, sizeof(*text->buffer), fp) == NULL)
     {
         perror("fread()");
-        cAssert(0, "File reading error.");
+        return FREAD_ERROR;
     }
 
 
@@ -63,6 +63,7 @@ void readFromFile(struct Text* text, const char* fileName)
     for(int i = 0; i < ptrIndex; i++)
         fprintf(stderr, "%s\n", text->lines[i]);
     */
+    return 0;
 }
 
 void freeDynamicMem(struct Text* text)

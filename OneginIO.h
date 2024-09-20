@@ -4,21 +4,22 @@
 #include <string.h>
 #include <stdio.h>
 
-struct Line
+enum errors
 {
-    char* ptr;
-    size_t length;
+    FREAD_ERROR = 1,
+    FOPEN_ERROR, 
+    TOO_MANY_CARGS,
 };
 
 struct Text
 {
     char* buffer;
     size_t bufferLen;
-    struct Lines* lines;
+    char** lines;
     size_t nLines;
 };
 
-void readFromFile(struct Text* text, const char* const fileName);
+int readFromFile(struct Text* text, const char* const fileName);
 void writeToFile(struct Text* sorted, const char* const fileName);
 int strcmpForwards(const void* a, const void* b);
 int strcmpBackwards(const void* a, const void* b);
