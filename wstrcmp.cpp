@@ -9,10 +9,8 @@ int strcmpForwards(const void* a, const void* b)
 {
     size_t aIndex = 0;
     size_t bIndex = 0;
-
     while(*(*((char**)a) + aIndex) != '\0' && *(*((char**)b) + bIndex) != '\0')
     {
-
         if(isalpha(*(*((char**)a) + aIndex)) || *(*((char**)a) + aIndex) == '\0')
         {
 

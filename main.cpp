@@ -7,8 +7,6 @@
 #include "SoftAssert.h"
 #include "wqsort.h"
 
-static int getFileName(int c, char** v, char* fName);
- 
 int main(int argc, char* argv[])
 {  
     char fileName[FILENAME_MAX] = {};
@@ -24,30 +22,11 @@ int main(int argc, char* argv[])
 
     wqsort(Onegin.lines, Onegin.nLines, sizeof(Onegin.lines), strcmpBackwards);
     outputSortedText(&Onegin, "Sorted.txt", "a+b");
-    printf("\nBackward sorting is done, enjoy new rhymes!\n");
+    printf("Backward sorting is done, enjoy new rhymes!\n");
 
-    freeDynamicMem(&Onegin);
+    freeOnegin(&Onegin);
+    fprintf(stderr, "Structure cleared\n");
+    return 0;
 }
 
-
-static int getFileName(int c, char** v, char* fName)
-{
-    char* defName = "Onegin.txt";
-    if(c == 2)
-    {
-        fName = v[1];
-        return 0;
-    }
-    else if(c > 2)
-    {
-        fprintf(stderr, "Too many console arguments, they will be ignored.\n");
-        fName = defName;
-        return TOO_MANY_CARGS;
-    }
-    else
-    {
-        fName = defName;
-        return 0;
-    }
-}
 

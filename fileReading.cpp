@@ -21,52 +21,77 @@ int readFromFile(struct Text* text, const char* fileName)
 
     fprintf(stderr, "bufferLen = %d\n", text->bufferLen);
 
-    text->buffer = (char*)calloc(text->bufferLen + 2, sizeof(char));
-    text->buffer[0] = '\0';
-    text->buffer[text->bufferLen] = '\0';
+    text->buffer = (char*)calloc(text->bufferLen + 1, sizeof(char));
+    text->buffer[text->bufferLen] = '\n';
 
-    if(fread(text->buffer + 1, text->bufferLen, sizeof(*text->buffer), fp) == NULL)
+    if(fread(text->buffer, text->bufferLen, sizeof(*text->buffer), fp) == NULL)
     {
         perror("fread()");
         return FREAD_ERROR;
     }
 
 
-    for(size_t i = 0; i < text->bufferLen; i++)
+    for(int i = 0; i < text->bufferLen + 1; i++)
     {
-        if(text->buffer[i] == '\n') //i += (strchr(text->buffer + i, '\n') - (text->buffer + i));                        
-            text->nLines++;         //text->nLines++;
+        if(strchr(text->buffer + i + 1, '\n') != NULL)
+        {
+            i += strchr(text->buffer + i + 1, '\n') - (text->buffer + i);                
+            text->nLines++;        
+        }
     }
-    text->nLines++; // cycle doesn't count first line
+
     fprintf(stderr, "nlines = %d\n", text->nLines);
 
     text->lines = (char**)calloc(text->nLines + 1, sizeof(text->lines));
 
     int ptrIndex = 0;
-    for(size_t i = 0; i < text->bufferLen; i++)
+    FILE* db = fopen("debug.txt", "w+b");
+    for(size_t i = 0; i < text->bufferLen + 1; i++)
     {
-        if(text->buffer[i] == '\r')
+        char* stringEndPtr =  strchr(text->buffer + i, '\n');
+        if(stringEndPtr != NULL)
         {
-            text->buffer[i] = '\0';
-            continue;
-        }
-        if(text->buffer[i] == '\n' || text->buffer[i] == '\0')
-        {
-            text->buffer[i] = '\0';
-            text->lines[ptrIndex++] = (text->buffer + i + 1);
-            i++;
+            *stringEndPtr = '\0';
+            text->lines[ptrIndex] = text->buffer + i;
+            i += stringEndPtr - (text->buffer + i);
+            ptrIndex++;
         }
     }
 
-    //TODO TODO TODO use strchr
-    /*fprintf(stderr, "PTRINDEX: %d\n", ptrIndex);
-    for(int i = 0; i < ptrIndex; i++)
-        fprintf(stderr, "%s\n", text->lines[i]);
-    */
+    fclose(fp);
+    fclose(db);
     return 0;
 }
 
-void freeDynamicMem(struct Text* text)
+void freeOnegin(struct Text* text)
 {
     free(text);
+}
+
+
+
+int getFileName(int c, char** v, char* fName)
+{
+    char defName [11] = "Onegin.txt";
+    if(c == 2)
+    {
+        fName = v[1];
+        return 0;
+    }
+    else if(c > 2)
+    {
+        fprintf(stderr, "Too many console arguments, all will be ignored.\n");
+        fName = defName;
+        return TOO_MANY_CARGS;
+    }
+    else
+    {
+        fName = defName;
+        return 0;
+    }
+}
+
+void errParse()
+{
+
 }
