@@ -2,15 +2,18 @@
 
 int outputSortedText(struct Text* text, const char* fName, const char* mode)
 {
-    FILE* fp = fopen(fName, mode); 
-    if(fp == NULL)
+    FILE* fop = fopen("sorted", "w+b"); 
+    if(fop == NULL)
     {
-        return FOPEN_ERROR;
+        perror("fopen()");
+        errParse(FOPEN_ERROR);
     }
-    for(int i = 0; i < text->nLines; i++)
+    
+    for(size_t i = 0; i < text->nLines; i++)
     {
-        fprintf(fp, "%s\n", text->lines[i]);
+        //fprintf(stderr, "%s\n", text->lines[i].ptr);
+        fprintf(fop, "%s\n", text->lines[i].ptr);
     } 
-    fclose(fp);
+    fclose(fop);
     return 0;
 }

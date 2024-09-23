@@ -16,13 +16,14 @@ int main(int argc, char* argv[])
     struct Text Onegin = {0, 0, 0, 0};
     readFromFile(&Onegin, "Onegin.txt");
 
-    wqsort(Onegin.lines, Onegin.nLines, sizeof(Onegin.lines), strcmpForwards);
+    wqsort(Onegin.lines, Onegin.nLines, sizeof(Onegin.nLines)*2, structCmpForwards);
+    fprintf(stderr, "%s", Onegin.lines[5111].ptr);
     outputSortedText(&Onegin, "Sorted.txt", "w+b");
     printf("\nSorting forward done.\n");
 
-    wqsort(Onegin.lines, Onegin.nLines, sizeof(Onegin.lines), strcmpBackwards);
-    outputSortedText(&Onegin, "Sorted.txt", "a+b");
-    printf("Backward sorting is done, enjoy new rhymes!\n");
+    //wqsort(Onegin.lines, Onegin.nLines, sizeof(Onegin.lines), structCmpBackwards);
+    //outputSortedText(&Onegin, "Sorted.txt", "a+b");
+    //printf("Backward sorting is done, enjoy new rhymes!\n");
 
     freeOnegin(&Onegin);
     fprintf(stderr, "Structure cleared\n");

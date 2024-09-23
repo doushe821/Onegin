@@ -9,28 +9,31 @@ enum errors
     FREAD_ERROR = 1,
     FOPEN_ERROR, 
     TOO_MANY_CARGS,
+    CALLOC_ERROR,
 };
 
 struct Line
 {
-    char* line
-    size_t length
+    char* ptr;
+    size_t length;
 };
 
 struct Text
 {
     char* buffer;
     size_t bufferLen;
-    struct Line*;
+    struct Line* lines;
     size_t nLines;
-};
+};// TODO TYpedef for compar func
 
-void errParse();
+void errParse(int code);
 int getFileName(int c, char** v, char* fName);
-int readFromFile(struct Text* text, const char* const fileName);
+void readFromFile(struct Text* text, const char* const fileName);
 void writeToFile(struct Text* sorted, const char* const fileName);
 int strcmpForwards(const void* a, const void* b);
 int strcmpBackwards(const void* a, const void* b);
+int structCmpForwards(const void* a, const void* b);
+int structCmpBackwards(const void* a, const void* b);
 int outputSortedText(struct Text* text, const char* fName, const char* mode);
 void freeOnegin(struct Text* text);
 

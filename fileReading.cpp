@@ -2,32 +2,40 @@
 #include <stdio.h>
 #include <string.h>
 #include <errno.h>
+#include <assert.h>
 
 #include "OneginIO.h"
 #include "SoftAssert.h"
 
-int readFromFile(struct Text* text, const char* fileName)
+void readFromFile(struct Text* text, const char* fileName)
 {
     FILE* fp = fopen(fileName, "rb");
     if(fp == NULL)
     {
         perror("fopen()");
-        return FOPEN_ERROR;
+        errParse(FOPEN_ERROR);
     } 
 
     fseek(fp, 0L, SEEK_END);
     text->bufferLen = ftell(fp);
     rewind(fp);
 
+    //FILE* db = fopen("debug.txt", "w+b");
+
     fprintf(stderr, "bufferLen = %d\n", text->bufferLen);
 
-    text->buffer = (char*)calloc(text->bufferLen + 1, sizeof(char));
+    text->buffer = (char*)calloc(text->bufferLen + 1, sizeof(char)); 
+    if(text->buffer == NULL)
+    {
+        perror("callocl()");
+        errParse(CALLOC_ERROR);
+    }
     text->buffer[text->bufferLen] = '\n';
 
     if(fread(text->buffer, text->bufferLen, sizeof(*text->buffer), fp) == NULL)
     {
         perror("fread()");
-        return FREAD_ERROR;
+        errParse(FREAD_ERROR);
     }
 
 
@@ -42,25 +50,41 @@ int readFromFile(struct Text* text, const char* fileName)
 
     fprintf(stderr, "nlines = %d\n", text->nLines);
 
-    text->lines = (char**)calloc(text->nLines + 1, sizeof(text->lines));
+    text->lines = (struct Line*)calloc(text->nLines + 1, sizeof(text->lines)*2);
+    //fprintf(stderr, "%zu", (text->nLines + 1) * sizeof(text->lines));
+    if(text->lines == NULL)
+    {
+        perror("callocl()");
+        errParse(CALLOC_ERROR);
+    }
 
     int ptrIndex = 0;
-    FILE* db = fopen("debug.txt", "w+b");
+
     for(size_t i = 0; i < text->bufferLen + 1; i++)
     {
         char* stringEndPtr =  strchr(text->buffer + i, '\n');
         if(stringEndPtr != NULL)
         {
             *stringEndPtr = '\0';
-            text->lines[ptrIndex] = text->buffer + i;
-            i += stringEndPtr - (text->buffer + i);
+            size_t len = stringEndPtr - (text->buffer + i);
+            text->lines[ptrIndex].ptr = text->buffer + i;
+            i += len;
+
+            //fprintf(db, "%.20s\n", text->buffer + i + 1);
+            text->lines[ptrIndex].length = len;
+            //fprintf(db, "%.3s\n", text->lines[ptrIndex].ptr);
+            //fprintf(db, "%zu\n", text->lines[ptrIndex].length);
+            //fprintf(db ,"%zu\n%zu\n", ptrIndex, i);
             ptrIndex++;
+            //assert(i < text->bufferLen);
+            assert(ptrIndex*sizeof(struct Line*) <= ((text->nLines + 1) * sizeof(text->lines)));
+            //fprintf(stderr, "%zu\n", sizeof(text->lines));
+            //fprintf(stderr, "%zu\n", i);
         }
     }
-
+    fprintf(stderr, "%zu\n", ptrIndex);
+    //fclose(db);
     fclose(fp);
-    fclose(db);
-    return 0;
 }
 
 void freeOnegin(struct Text* text)
@@ -91,7 +115,37 @@ int getFileName(int c, char** v, char* fName)
     }
 }
 
-void errParse()
-{
+void errParse(int code)
+{   
+    switch(code)
+    {
+        case FREAD_ERROR:
+        {
+            fprintf(stderr, "Please, check for file's acces settings.");
+            exit(1);
+        }
+        
+        case FOPEN_ERROR: 
+        {
+            fprintf(stderr, "Please, check for correctness of file's name.");
+            exit(2);
+        }
 
+        case TOO_MANY_CARGS:
+        {
+            fprintf(stderr, "Please, enter only one flag. It should be the name of the file you need to sort.");
+            exit(3);
+        }
+
+        case CALLOC_ERROR:
+        {
+            fprintf(stderr, "No accesible memory.");
+            exit(4);
+        }
+
+        default:
+        {
+            break;
+        }
+    }
 }
