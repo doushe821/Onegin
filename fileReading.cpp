@@ -20,7 +20,7 @@ void readFromFile(struct Text* text, const char* fileName)
     text->bufferLen = ftell(fp);
     rewind(fp);
 
-    //FILE* db = fopen("debug.txt", "w+b");
+    FILE* db = fopen("debug.txt", "w+b");
 
     fprintf(stderr, "bufferLen = %d\n", text->bufferLen);
 
@@ -73,7 +73,7 @@ void readFromFile(struct Text* text, const char* fileName)
             //fprintf(db, "%.20s\n", text->buffer + i + 1);
             text->lines[ptrIndex].length = len;
             //fprintf(db, "%.3s\n", text->lines[ptrIndex].ptr);
-            //fprintf(db, "%zu\n", text->lines[ptrIndex].length);
+            fprintf(db, "%zu\n", text->lines[ptrIndex].length);
             //fprintf(db ,"%zu\n%zu\n", ptrIndex, i);
             ptrIndex++;
             //assert(i < text->bufferLen);
@@ -83,13 +83,13 @@ void readFromFile(struct Text* text, const char* fileName)
         }
     }
     fprintf(stderr, "%zu\n", ptrIndex);
-    //fclose(db);
+    fclose(db);
     fclose(fp);
 }
 
-void freeOnegin(struct Text* text)
+void freeOnegin(struct Line* lines)
 {
-    free(text);
+    free(lines);
 }
 
 

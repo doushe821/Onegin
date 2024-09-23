@@ -2,7 +2,7 @@
 
 int outputSortedText(struct Text* text, const char* fName, const char* mode)
 {
-    FILE* fop = fopen("sorted", "w+b"); 
+    FILE* fop = fopen(fName, mode); 
     if(fop == NULL)
     {
         perror("fopen()");
@@ -11,8 +11,7 @@ int outputSortedText(struct Text* text, const char* fName, const char* mode)
     
     for(size_t i = 0; i < text->nLines; i++)
     {
-        //fprintf(stderr, "%s\n", text->lines[i].ptr);
-        fprintf(fop, "%s\n", text->lines[i].ptr);
+        fprintf(fop, "\n%s\n", text->lines[i].ptr);
     } 
     fclose(fop);
     return 0;

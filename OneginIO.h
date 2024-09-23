@@ -35,6 +35,6 @@ int strcmpBackwards(const void* a, const void* b);
 int structCmpForwards(const void* a, const void* b);
 int structCmpBackwards(const void* a, const void* b);
 int outputSortedText(struct Text* text, const char* fName, const char* mode);
-void freeOnegin(struct Text* text);
+void freeOnegin(struct Line* lines);
 
 #endif

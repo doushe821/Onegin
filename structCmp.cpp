@@ -12,7 +12,7 @@ int structCmpForwards(const void* a, const void* b)
     size_t bIndex = 0;
     struct Line* aStruct = (struct Line*)a;
     struct Line* bStruct = (struct Line*)b;
-    FILE* db = fopen("debug.txt", "w+b");
+    //FILE* db = fopen("debug.txt", "w+b");
     //fprintf(stderr, "nigger\n");
     while(aStruct->length > aIndex && bStruct->length > bIndex)
     {
@@ -26,7 +26,6 @@ int structCmpForwards(const void* a, const void* b)
             {
                 if(tolower(*(aStruct->ptr + aIndex)) - tolower(*(bStruct->ptr + bIndex)) !=  0)
                 {
-                    //fprintf(db, "Not equal.\n");
                     return tolower(*(aStruct->ptr + aIndex)) - tolower(*(bStruct->ptr + bIndex));
                 }
 
@@ -42,7 +41,6 @@ int structCmpForwards(const void* a, const void* b)
         else 
             aIndex++;
     }
-    //fprintf(db, "equal\n");
     return 0;
 }
 
@@ -52,17 +50,18 @@ int structCmpBackwards(const void* a, const void* b)
     struct Line* bStruct = (struct Line*)b;
     size_t aIndex = aStruct->length;
     size_t bIndex = bStruct->length;
-
+    
     while(aIndex > 0 && bIndex > 0)
     {
         if(isalpha(*(aStruct->ptr + aIndex)) || *(aStruct->ptr + aIndex) == '\0')
         {
             if(isalpha(*(bStruct->ptr + bIndex)) || *(bStruct->ptr + bIndex) == '\0')
             {
-                if(tolower(*(aStruct->ptr + aIndex)) - tolower(*(bStruct->ptr + bIndex)) > 0)
-                    return 1;
-                else if(tolower(*(aStruct->ptr + aIndex)) - tolower(*(bStruct->ptr + bIndex)) < 0)
-                    return -1;
+                if(tolower(*(aStruct->ptr + aIndex)) - tolower(*(bStruct->ptr + bIndex)) !=  0)
+                {
+                    return tolower(*(aStruct->ptr + aIndex)) - tolower(*(bStruct->ptr + bIndex));
+                }
+
                 else
                 {
                     bIndex--;
@@ -74,7 +73,6 @@ int structCmpBackwards(const void* a, const void* b)
         }
         else 
             aIndex--;
-
     }
     return 0;
 }
