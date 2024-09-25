@@ -12,14 +12,9 @@ int structCmpForwards(const void* a, const void* b)
     size_t bIndex = 0;
     struct Line* aStruct = (struct Line*)a;
     struct Line* bStruct = (struct Line*)b;
-    //FILE* db = fopen("debug.txt", "w+b");
-    //fprintf(stderr, "nigger\n");
+
     while(aStruct->length > aIndex && bStruct->length > bIndex)
     {
-        //fprintf(stderr, "%s\n", aStruct->ptr);
-        //fprintf(stderr, "%zu\n", aStruct->length);
-        //fprintf(db, "%s\n", aStruct->ptr);
-        //fprintf(db, "%s\n", bStruct->ptr);
         if(isalpha(*(aStruct->ptr + aIndex)) || *(aStruct->ptr + aIndex) == '\0')
         {
             if(isalpha(*(bStruct->ptr + bIndex)) || *(bStruct->ptr + bIndex) == '\0')

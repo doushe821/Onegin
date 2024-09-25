@@ -51,7 +51,7 @@ void readFromFile(struct Text* text, const char* fileName)
     fprintf(stderr, "nlines = %d\n", text->nLines);
 
     text->lines = (struct Line*)calloc(text->nLines + 1, sizeof(text->lines)*2);
-    //fprintf(stderr, "%zu", (text->nLines + 1) * sizeof(text->lines));
+
     if(text->lines == NULL)
     {
         perror("callocl()");
@@ -70,16 +70,10 @@ void readFromFile(struct Text* text, const char* fileName)
             text->lines[ptrIndex].ptr = text->buffer + i;
             i += len;
 
-            //fprintf(db, "%.20s\n", text->buffer + i + 1);
             text->lines[ptrIndex].length = len;
-            //fprintf(db, "%.3s\n", text->lines[ptrIndex].ptr);
             fprintf(db, "%zu\n", text->lines[ptrIndex].length);
-            //fprintf(db ,"%zu\n%zu\n", ptrIndex, i);
             ptrIndex++;
-            //assert(i < text->bufferLen);
             assert(ptrIndex*sizeof(struct Line*) <= ((text->nLines + 1) * sizeof(text->lines)));
-            //fprintf(stderr, "%zu\n", sizeof(text->lines));
-            //fprintf(stderr, "%zu\n", i);
         }
     }
     fprintf(stderr, "%zu\n", ptrIndex);
@@ -91,8 +85,6 @@ void freeOnegin(struct Line* lines)
 {
     free(lines);
 }
-
-
 
 int getFileName(int c, char** v, char* fName)
 {

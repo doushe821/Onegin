@@ -9,9 +9,10 @@ int outputSortedText(struct Text* text, const char* fName, const char* mode)
         errParse(FOPEN_ERROR);
     }
     
+    fprintf(fop, "\n\n"); 
     for(size_t i = 0; i < text->nLines; i++)
     {
-        fprintf(fop, "\n%s\n", text->lines[i].ptr);
+        fprintf(fop, "%s\n", text->lines[i].ptr);
     } 
     fclose(fop);
     return 0;

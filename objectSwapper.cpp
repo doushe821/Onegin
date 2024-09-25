@@ -13,8 +13,6 @@ void swapObjects(void* a, void* b, size_t size)
     uint8_t buf1 = 0;
 
     size_t i = 0;
-    //fprintf(stderr, "%zu\n", size);
-    //fprintf(stderr, "%zu\n", sizeof(buf8));
     while(size - i > 0)
     {
         if(size - i >= sizeof(buf8))

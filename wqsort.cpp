@@ -4,7 +4,7 @@
 #include "wqsort.h"
 #include "SoftAssert.h"
 
-void wqsort(void* ptr, size_t count, size_t size, int (*comp)(const void*, const void*))
+void wqsort(void* ptr, size_t count, size_t size, compar_t comp)
 {
     
     char* cptr = (char*) ptr;
