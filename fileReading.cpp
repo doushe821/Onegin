@@ -7,13 +7,14 @@
 #include "OneginIO.h"
 #include "SoftAssert.h"
 
-void readFromFile(struct Text* text, const char* fileName)
+int readFromFile(struct Text* text, const char* fileName)
 {
     FILE* fp = fopen(fileName, "rb");
     if(fp == NULL)
     {
         perror("fopen()");
-        errParse(FOPEN_ERROR);
+        text->err = FOPEN_ERROR;
+        return FOPEN_ERROR;
     } 
 
     fseek(fp, 0L, SEEK_END);
@@ -28,14 +29,16 @@ void readFromFile(struct Text* text, const char* fileName)
     if(text->buffer == NULL)
     {
         perror("callocl()");
-        errParse(CALLOC_ERROR);
+        text->err = CALLOC_ERROR;
+        return CALLOC_ERROR;
     }
     text->buffer[text->bufferLen] = '\n';
 
     if(fread(text->buffer, text->bufferLen, sizeof(*text->buffer), fp) == NULL)
     {
         perror("fread()");
-        errParse(FREAD_ERROR);
+        text->err = FREAD_ERROR;
+        return FREAD_ERROR;
     }
 
 
@@ -55,7 +58,8 @@ void readFromFile(struct Text* text, const char* fileName)
     if(text->lines == NULL)
     {
         perror("callocl()");
-        errParse(CALLOC_ERROR);
+        text->err = CALLOC_ERROR;
+        return CALLOC_ERROR;
     }
 
     int ptrIndex = 0;
@@ -79,6 +83,8 @@ void readFromFile(struct Text* text, const char* fileName)
     fprintf(stderr, "%zu\n", ptrIndex);
     fclose(db);
     fclose(fp);
+    text->err = NO_ERRORS;
+    return NO_ERRORS;
 }
 
 void freeOnegin(struct Line* lines)
@@ -107,32 +113,28 @@ int getFileName(int c, char** v, char* fName)
     }
 }
 
-void errParse(int code)
+int errParse(int code)
 {   
     switch(code)
     {
         case FREAD_ERROR:
         {
             fprintf(stderr, "Please, check for file's acces settings.");
-            exit(1);
         }
         
         case FOPEN_ERROR: 
         {
             fprintf(stderr, "Please, check for correctness of file's name.");
-            exit(2);
         }
 
         case TOO_MANY_CARGS:
         {
             fprintf(stderr, "Please, enter only one flag. It should be the name of the file you need to sort.");
-            exit(3);
         }
 
         case CALLOC_ERROR:
         {
             fprintf(stderr, "No accesible memory.");
-            exit(4);
         }
 
         default:

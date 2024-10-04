@@ -10,17 +10,26 @@
 int main(int argc, char* argv[])
 {  
     char fileName[FILENAME_MAX] = {};
-    getFileName(argc, argv, fileName);
-    struct Text Onegin = {0, 0, 0, 0};
+    getFileName(argc, argv, fileName) != 0;
 
-    readFromFile(&Onegin, "Onegin.txt");
+    struct Text Onegin = {0, 0, 0, 0};
+    if(readFromFile(&Onegin, "Onegin.txt") != 0)
+    {
+        return Onegin.err;
+    }
 
     wqsort(Onegin.lines, Onegin.nLines, sizeof(Onegin.nLines)*2, structCmpForwards);
-    outputSortedText(&Onegin, "Sorted.txt", "w+b");
+    if(outputSortedText(&Onegin, "Sorted.txt", "w+b") != 0)
+    {
+        return Onegin.err;
+    }
     printf("\nSorting forward done.\n");
 
     wqsort(Onegin.lines, Onegin.nLines, sizeof(Onegin.lines)*2, structCmpBackwards);
-    outputSortedText(&Onegin, "Sorted.txt", "a+b");
+    if(outputSortedText(&Onegin, "Sorted.txt", "a+b") != 0)
+    {
+        return Onegin.err;
+    }
     printf("Backward sorting is done, enjoy new rhymes!\n");
 
     freeOnegin(Onegin.lines);
